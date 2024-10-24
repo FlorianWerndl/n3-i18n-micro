@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "nuxt": "^3.13.2",
-    "nuxt-i18n-micro": "^1.30.0",
+    "nuxt-i18n-micro": "1.30.2",
     "vue": "^3.5.12",
     "vue-final-modal": "^4.5.5"
   },
