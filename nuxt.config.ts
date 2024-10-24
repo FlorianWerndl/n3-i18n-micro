@@ -2,7 +2,7 @@ import availableLanguages from './app/locales/availableLanguages';
 import { createPages } from './app/locales/pages';
 
 const pages = createPages();
-console.log('pages :>> ', pages);
+// console.log('pages :>> ', pages);
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -26,24 +26,14 @@ export default defineNuxtConfig({
   },
 
   i18n: {
-    disableWatcher: true,
-    locales: availableLanguages,
     autoDetectLanguage: true,
     autoDetectPath: '/',
-    includeDefaultLocaleRoute: true,
-    globalLocaleRoutes: pages,
-    // globalLocaleRoutes: {
-    //   'page': {
-    //     en: '/page',
-    //     de: '/seite',
-    //   },
-    //   'page-identifier': {
-    //     en: '/page/:identifier()',
-    //     de: '/seite/:identifier()',
-    //   },
-    // },
     defaultLocale: 'de',
-    translationDir: './app/locales',
+    disableWatcher: true,
+    globalLocaleRoutes: pages,
+    includeDefaultLocaleRoute: true,
+    locales: availableLanguages,
     meta: true,
+    translationDir: './app/locales',
   },
 });

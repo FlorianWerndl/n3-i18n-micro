@@ -20,7 +20,7 @@ export function createPages() {
       pages[routeName] = {};
 
       const routePathAsArray = routePath.split('/');
-      const newRoutePathAsArray = []; // parts.slice();
+      const newRoutePathAsArray = [];
 
       for (const [lang, translations] of Object.entries(routeTranslations)) {
         for (let i = 0; i < routePathAsArray.length; i++) {
@@ -31,11 +31,11 @@ export function createPages() {
               newRoutePathAsArray[i] = translations[part as keyof typeof translations];
             }
           } else {
-            newRoutePathAsArray[i] = routePathAsArray[i]; // .replace(/^_$/, '*').replace(/^_/, ':');
+            newRoutePathAsArray[i] = routePathAsArray[i];
           }
         }
-        pages[routeName][lang] = newRoutePathAsArray.join('/');
-        pages[routeName][lang] = '/' + pages[routeName][lang].replace(/\/index$/, '');
+
+        pages[routeName][lang] = '/' + newRoutePathAsArray.join('/').replace(/\/index$/, '');
       }
     }
   });
