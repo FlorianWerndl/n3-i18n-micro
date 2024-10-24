@@ -25,14 +25,9 @@ export function createPages(pagesBasePath = 'app/pages/') {
           const part = routePathAsArray[i];
 
           if (part && !part.match(/^:/) && part !== 'index') {
-            const partTranslation = translations[part as keyof typeof translations];
-            if (partTranslation) {
-              newRoutePathAsArray[i] = partTranslation;
-            } else {
-              newRoutePathAsArray[i] = routePathAsArray[i];
-            }
+            newRoutePathAsArray[i] = translations[part as keyof typeof translations] || part;
           } else {
-            newRoutePathAsArray[i] = routePathAsArray[i];
+            newRoutePathAsArray[i] = part;
           }
         }
         pages[routeName][lang] = '/' + newRoutePathAsArray.join('/').replace(/\/index$/, '');
