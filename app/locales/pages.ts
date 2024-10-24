@@ -28,6 +28,8 @@ export function createPages(pagesBasePath = 'app/pages/') {
             const partTranslation = translations[part as keyof typeof translations];
             if (partTranslation) {
               newRoutePathAsArray[i] = partTranslation;
+            } else {
+              newRoutePathAsArray[i] = routePathAsArray[i];
             }
           } else {
             newRoutePathAsArray[i] = routePathAsArray[i];
@@ -37,6 +39,5 @@ export function createPages(pagesBasePath = 'app/pages/') {
       }
     }
   });
-
   return pages;
 }
