@@ -1,38 +1,44 @@
 import { globSync } from 'glob';
-import routes from './routeTranslations.json';
+import routeTranslations from './routeTranslations.json' with { type: 'json' };
 
-const pagesDir = './app/pages/';
-const pagesPath = 'app/pages/';
-const pages: Record<string, Record<string, string> | false> = {};
+function removeFilePathAndExtension(path: string, basePath: string): string {
+  return path.replace(basePath, '').replace(/\.vue$/, '');
+}
 
-const directoryListing = globSync(`${pagesDir}**/*.vue`);
+export function createPages() {
+  const pages: Record<string, Record<string, string> | false> = {};
+  const pagesBasePath = 'app/pages/';
+  const directoryListing = globSync(`./${pagesBasePath}**/*.vue`);
 
-directoryListing.forEach((path) => {
-  const pageIdentifier: string = path.replace(pagesPath, '').replace(/\.vue$/, '').replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '');
-  const partsBase: string = path.replace(pagesPath, '').replace(/\.vue$/, '').replace(/\[/g, ':').replace(/\]/g, '()');
+  directoryListing.forEach((path) => {
+    const filename = removeFilePathAndExtension(path, pagesBasePath);
 
-  if (pageIdentifier !== 'index' && !pageIdentifier.startsWith('[')) {
-    pages[pageIdentifier] = {};
+    const routeName: string = filename.replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '');
+    const routePath: string = filename.replace(/\[/g, ':').replace(/\]/g, '()');
 
-    const parts = partsBase.split('/');
-    const newParts = parts.slice();
+    if (routeName !== 'index' && !routeName.startsWith(':')) {
+      pages[routeName] = {};
 
-    for (const [lang, routeTranslations] of Object.entries(routes)) {
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
-        if (part && !part.match(/^\[/) && part !== 'index') {
-          if (routeTranslations[part]) {
-            newParts[i] = routeTranslations[part];
+      const routePathAsArray = routePath.split('/');
+      const newRoutePathAsArray = []; // parts.slice();
+
+      for (const [lang, translations] of Object.entries(routeTranslations)) {
+        for (let i = 0; i < routePathAsArray.length; i++) {
+          const part = routePathAsArray[i];
+
+          if (part && !part.match(/^:/) && part !== 'index') {
+            if (translations[part]) {
+              newRoutePathAsArray[i] = translations[part as keyof typeof translations];
+            }
+          } else {
+            newRoutePathAsArray[i] = routePathAsArray[i]; // .replace(/^_$/, '*').replace(/^_/, ':');
           }
-        } else {
-          newParts[i] = parts[i]; // .replace(/^_$/, '*').replace(/^_/, ':');
         }
+        pages[routeName][lang] = newRoutePathAsArray.join('/');
+        pages[routeName][lang] = '/' + pages[routeName][lang].replace(/\/index$/, '');
       }
-      pages[pageIdentifier][lang] = newParts.join('/');
-      pages[pageIdentifier][lang] = '/' + pages[pageIdentifier][lang].replace(/\/index$/, '');
     }
-  }
-});
-// console.log('pages :>> ', pages);
+  });
 
-export default pages;
+  return pages;
+}

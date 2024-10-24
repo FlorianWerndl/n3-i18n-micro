@@ -1,6 +1,8 @@
 import availableLanguages from './app/locales/availableLanguages';
-import pages from './app/locales/pages';
+import { createPages } from './app/locales/pages';
 
+const pages = createPages();
+console.log('pages :>> ', pages);
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
