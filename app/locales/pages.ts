@@ -5,9 +5,8 @@ function removeFilePathAndExtension(path: string, basePath: string): string {
   return path.replace(basePath, '').replace(/\.vue$/, '');
 }
 
-export function createPages() {
+export function createPages(pagesBasePath = 'app/pages/') {
   const pages: Record<string, Record<string, string> | false> = {};
-  const pagesBasePath = 'app/pages/';
   const directoryListing = globSync(`./${pagesBasePath}**/*.vue`);
 
   directoryListing.forEach((path) => {
@@ -27,14 +26,14 @@ export function createPages() {
           const part = routePathAsArray[i];
 
           if (part && !part.match(/^:/) && part !== 'index') {
-            if (translations[part]) {
-              newRoutePathAsArray[i] = translations[part as keyof typeof translations];
+            const partTranslation = translations[part as keyof typeof translations];
+            if (partTranslation) {
+              newRoutePathAsArray[i] = partTranslation;
             }
           } else {
             newRoutePathAsArray[i] = routePathAsArray[i];
           }
         }
-
         pages[routeName][lang] = '/' + newRoutePathAsArray.join('/').replace(/\/index$/, '');
       }
     }
