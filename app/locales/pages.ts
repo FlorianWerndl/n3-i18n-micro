@@ -6,14 +6,13 @@ function removeFilePathAndExtension(path: string, basePath: string): string {
 }
 
 export function createPages(pagesBasePath = 'app/pages/') {
-  const pages: Record<string, Record<string, string> | false> = {};
   const directoryListing = globSync(`./${pagesBasePath}**/*.vue`);
+  const pages: Record<string, Record<string, string> | false> = {};
 
   directoryListing.forEach((path) => {
     const filename = removeFilePathAndExtension(path, pagesBasePath);
-
-    const routeName: string = filename.replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '');
-    const routePath: string = filename.replace(/\[/g, ':').replace(/\]/g, '()');
+    const routeName = filename.replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '');
+    const routePath = filename.replace(/\[/g, ':').replace(/\]/g, '()');
 
     if (routeName !== 'index' && !routeName.startsWith(':')) {
       pages[routeName] = {};
