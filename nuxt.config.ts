@@ -1,3 +1,6 @@
+import availableLanguages from './app/locales/availableLanguages';
+import pages from './app/locales/pages';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -22,23 +25,21 @@ export default defineNuxtConfig({
 
   i18n: {
     disableWatcher: true,
-    locales: [
-      { code: 'de', iso: 'de-DE', dir: 'ltr' },
-      { code: 'en', iso: 'en-US', dir: 'ltr' },
-    ],
+    locales: availableLanguages,
     autoDetectLanguage: true,
     autoDetectPath: '/',
     includeDefaultLocaleRoute: true,
-    globalLocaleRoutes: {
-      'page': {
-        en: '/page',
-        de: '/seite',
-      },
-      'page/[identifier]': {
-        en: '/page/[identifier]',
-        de: '/seite/[identifier]',
-      },
-    },
+    globalLocaleRoutes: pages,
+    // globalLocaleRoutes: {
+    //   'page': {
+    //     en: '/page',
+    //     de: '/seite',
+    //   },
+    //   'page-identifier': {
+    //     en: '/page/:identifier()',
+    //     de: '/seite/:identifier()',
+    //   },
+    // },
     defaultLocale: 'de',
     translationDir: './app/locales',
     meta: true,

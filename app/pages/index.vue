@@ -1,5 +1,8 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <div class="bg-red-500 text-blue-200">
+  <div>
     Index
   </div>
 </template>
