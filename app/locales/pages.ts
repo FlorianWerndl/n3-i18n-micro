@@ -1,6 +1,11 @@
 import { globSync } from 'glob';
 import routeTranslations from './routeTranslations.json' with { type: 'json' };
 
+function allKeysHaveSameValue(obj: { [key: string]: string }): boolean {
+  const values = Object.values(obj);
+  return values.every(value => value === values[0]);
+}
+
 function removeFilePathAndExtension(path: string, basePath: string): string {
   return path.replace(basePath, '').replace(/\.vue$/, '');
 }
@@ -35,14 +40,10 @@ export function createPages(pagesBasePath = 'app/pages/') {
           }
         }
         pages[routeName][lang] = '/' + newRoutePathAsArray.join('/').replace(/\/index$/, '');
-
-        const o = '/' + filename.replace(/\/index$/, '');
-        if (o === pages[routeName][lang]) {
-          delete pages[routeName][lang];
-        }
       }
 
-      if (!Object.keys(pages[routeName]).length) {
+      if (allKeysHaveSameValue(pages[routeName])) {
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         delete pages[routeName];
       }
     }
