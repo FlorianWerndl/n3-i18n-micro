@@ -11,8 +11,12 @@ export function createPages(pagesBasePath = 'app/pages/') {
 
   directoryListing.forEach((path) => {
     const filename = removeFilePathAndExtension(path, pagesBasePath);
-    const routeName = filename.replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '');
-    const routePath = filename.replace(/\[/g, ':').replace(/\]/g, '()');
+    const routeName = filename.replace(/\/index$/, '').replace(/\//g, '-').replaceAll(/\[/g, '').replaceAll(/\]/g, '').replace(/\.\.\./, '');
+    let routePath = filename.replace(/\[/g, ':').replace(/\]/g, '()');
+
+    if (routePath.match(/\.\.\./)) {
+      routePath = routePath.replace(/\.\.\./, '').replace(/\(\)/, '(.*)*');
+    }
 
     if (routeName !== 'index' && !routeName.startsWith(':')) {
       pages[routeName] = {};
@@ -31,6 +35,15 @@ export function createPages(pagesBasePath = 'app/pages/') {
           }
         }
         pages[routeName][lang] = '/' + newRoutePathAsArray.join('/').replace(/\/index$/, '');
+
+        const o = '/' + filename.replace(/\/index$/, '');
+        if (o === pages[routeName][lang]) {
+          delete pages[routeName][lang];
+        }
+      }
+
+      if (!Object.keys(pages[routeName]).length) {
+        delete pages[routeName];
       }
     }
   });
