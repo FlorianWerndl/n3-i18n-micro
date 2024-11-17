@@ -12,19 +12,19 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "nuxt": "^3.13.2",
-    "nuxt-i18n-micro": "1.31.0",
-    "vue": "^3.5.12",
+    "nuxt": "^3.14.159",
+    "nuxt-i18n-micro": "1.32.4",
+    "vue": "^3.5.13",
     "vue-final-modal": "^4.5.5"
   },
   "packageManager": "pnpm@9.7.1+sha512.faf344af2d6ca65c4c5c8c2224ea77a81a5e8859cbc4e06b1511ddce2f0151512431dd19e6aff31f2c6a8f5f2aced9bd2273e1fed7dd4de1868984059d2c4247",
   "devDependencies": {
-    "@nuxt/eslint": "^0.6.0",
+    "@nuxt/eslint": "^0.7.0",
     "@nuxtjs/tailwindcss": "^6.12.2",
-    "eslint": "^9.13.0",
+    "eslint": "^9.15.0",
     "eslint-plugin-tailwindcss": "^3.17.5",
     "glob": "^11.0.0",
     "typescript": "^5.6.3",
-    "vue-tsc": "^2.1.6"
+    "vue-tsc": "^2.1.10"
   }
 }
